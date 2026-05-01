@@ -52,7 +52,7 @@ function Projects() {
                 {project.screenshots && project.screenshots.length > 0 && (
                   <div className="mb-4 rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800 aspect-video">
                     <img
-                      src={`${BASE_URL}/uploads/${project.screenshots[0]}`}
+                      src={project.screenshots[0]}
                       alt={project.title}
                       className="w-full h-full object-cover"
                     />

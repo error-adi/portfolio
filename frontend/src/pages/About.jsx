@@ -27,7 +27,7 @@ function About() {
                 <div className="w-16 h-16 rounded-full bg-indigo-100 dark:bg-indigo-950 flex items-center justify-center text-xl font-medium text-indigo-600 dark:text-indigo-400 shrink-0 overflow-hidden">
                   {settings.photo ? (
                     <img
-                      src={`${BASE_URL}/uploads/${settings.photo}`}
+                      src={settings.photo}
                       alt={settings.name}
                       className="w-full h-full object-cover"
                     />
@@ -95,7 +95,7 @@ function About() {
                   Want to know more? Download my CV.
                 </p>
                 
-                <a  href={`${BASE_URL}/uploads/${settings.cvFile}`}
+                <a  href={settings.cvFile}
                   download
                   className="block w-full text-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-xl transition-colors"
                 >

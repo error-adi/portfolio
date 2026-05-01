@@ -62,7 +62,7 @@ function BlogPost() {
         {blog.coverImage && (
           <div className="rounded-3xl overflow-hidden mb-8 aspect-video">
             <img
-              src={`${BASE_URL}/uploads/${blog.coverImage}`}
+              src={blog.coverImage}
               alt={blog.title}
               className="w-full h-full object-cover"
             />

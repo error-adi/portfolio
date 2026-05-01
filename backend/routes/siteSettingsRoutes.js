@@ -1,16 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
 const SiteSettings = require('../models/SiteSettings');
 const auth = require('../middleware/auth');
+const { cloudinary } = require('../config/cloudinary');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const multer = require('multer');
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: (req, file) => {
+    if (file.fieldname === 'photo') {
+      return {
+        folder: 'portfolio/images',
+        allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+      }
+    } else {
+      return {
+        folder: 'portfolio/files',
+        allowed_formats: ['pdf'],
+        resource_type: 'raw',
+      }
+    }
   }
 });
 
@@ -53,13 +63,13 @@ router.put('/', auth, uploadFields, async (req, res) => {
     settings.skills = skills ? skills.split(',').map(s => s.trim()) : settings.skills;
     settings.status = status || settings.status;
 
-      if (req.files['cvFile']) {
-          settings.cvFile = req.files['cvFile'][0].filename;
-      }
+    if (req.files['cvFile']) {
+      settings.cvFile = req.files['cvFile'][0].path;
+    }
 
-      if (req.files['photo']) {
-          settings.photo = req.files['photo'][0].filename;
-      }
+    if (req.files['photo']) {
+      settings.photo = req.files['photo'][0].path;
+    }
 
     await settings.save();
     res.json({ message: 'Settings saved successfully', settings });

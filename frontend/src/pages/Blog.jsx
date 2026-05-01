@@ -55,7 +55,7 @@ function Blog() {
                   {blog.coverImage && (
                     <div className="md:w-32 md:h-20 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-800 shrink-0">
                       <img
-                        src={`${BASE_URL}/uploads/${blog.coverImage}`}
+                        src={blog.coverImage}
                         alt={blog.title}
                         className="w-full h-full object-cover"
                       />

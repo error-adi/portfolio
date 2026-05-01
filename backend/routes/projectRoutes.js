@@ -1,21 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
 const Project = require('../models/Project');
 const auth = require('../middleware/auth');
-
-// Storage configuration for uploaded files
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-
-const upload = multer({ storage });
+const { uploadMixed } = require('../config/cloudinary');
 
 // GET all published projects (public)
 router.get('/', async (req, res) => {
@@ -51,7 +38,7 @@ router.get('/:slug', async (req, res) => {
 });
 
 // POST create new project (admin only)
-router.post('/', auth, upload.fields([
+router.post('/', auth, uploadMixed.fields([
   { name: 'downloadFile', maxCount: 1 },
   { name: 'screenshots', maxCount: 5 }
 ]), async (req, res) => {
@@ -59,11 +46,11 @@ router.post('/', auth, upload.fields([
     const { title, slug, description, longDescription, techStack } = req.body;
 
     const downloadFile = req.files['downloadFile']
-      ? req.files['downloadFile'][0].filename
+      ? req.files['downloadFile'][0].path
       : null;
 
     const screenshots = req.files['screenshots']
-      ? req.files['screenshots'].map(f => f.filename)
+      ? req.files['screenshots'].map(f => f.path)
       : [];
 
     const project = new Project({
@@ -84,7 +71,7 @@ router.post('/', auth, upload.fields([
 });
 
 // PUT update project (admin only)
-router.put('/:id', auth, upload.fields([
+router.put('/:id', auth, uploadMixed.fields([
   { name: 'downloadFile', maxCount: 1 },
   { name: 'screenshots', maxCount: 5 }
 ]), async (req, res) => {
@@ -104,11 +91,11 @@ router.put('/:id', auth, upload.fields([
     project.isPublished = isPublished !== undefined ? isPublished : project.isPublished;
 
     if (req.files['downloadFile']) {
-      project.downloadFile = req.files['downloadFile'][0].filename;
+      project.downloadFile = req.files['downloadFile'][0].path;
     }
 
     if (req.files['screenshots']) {
-      project.screenshots = req.files['screenshots'].map(f => f.filename);
+      project.screenshots = req.files['screenshots'].map(f => f.path);
     }
 
     await project.save();
@@ -135,8 +122,10 @@ router.patch('/:id/download', async (req, res) => {
 // DELETE project (admin only)
 router.delete('/:id', auth, async (req, res) => {
   try {
-    await Project.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Project deleted successfully' });
+    const project = await Project.findByIdAndDelete(req.params.id);
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    res.json({ message: 'Project deleted successfully' }); // Fixed message
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }

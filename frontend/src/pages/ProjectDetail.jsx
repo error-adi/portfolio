@@ -104,7 +104,7 @@ function ProjectDetail() {
                     className="rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800"
                   >
                     <img
-                      src={`${BASE_URL}/uploads/${screenshot}`}
+                      src={screenshot}
                       alt={`${project.title} screenshot ${index + 1}`}
                       className="w-full object-cover"
                     />

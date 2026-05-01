@@ -115,7 +115,7 @@ function Home() {
             {/* Full cover photo */}
             {settings.photo ? (
               <img
-                src={`${BASE_URL}/uploads/${settings.photo}`}
+                src={settings.photo}
                 alt={settings.name}
                 className="absolute inset-0 w-full h-full object-cover"
               />

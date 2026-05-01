@@ -1,21 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
 const Blog = require('../models/Blog');
 const auth = require('../middleware/auth');
-
-// Storage configuration for cover images
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-
-const upload = multer({ storage });
+const { uploadImage } = require('../config/cloudinary');
 
 // GET all published blogs (public)
 router.get('/', async (req, res) => {
@@ -45,7 +32,6 @@ router.get('/:slug', async (req, res) => {
       return res.status(404).json({ message: 'Blog post not found' });
     }
 
-    // Increment views
     blog.views += 1;
     await blog.save();
 
@@ -56,11 +42,11 @@ router.get('/:slug', async (req, res) => {
 });
 
 // POST create new blog (admin only)
-router.post('/', auth, upload.single('coverImage'), async (req, res) => {
+router.post('/', auth, uploadImage.single('coverImage'), async (req, res) => {
   try {
     const { title, slug, content, excerpt, tags } = req.body;
 
-    const coverImage = req.file ? req.file.filename : null;
+    const coverImage = req.file ? req.file.path : null;
 
     const blog = new Blog({
       title,
@@ -79,7 +65,7 @@ router.post('/', auth, upload.single('coverImage'), async (req, res) => {
 });
 
 // PUT update blog (admin only)
-router.put('/:id', auth, upload.single('coverImage'), async (req, res) => {
+router.put('/:id', auth, uploadImage.single('coverImage'), async (req, res) => {
   try {
     const { title, slug, content, excerpt, tags, isPublished } = req.body;
 
@@ -96,7 +82,7 @@ router.put('/:id', auth, upload.single('coverImage'), async (req, res) => {
     blog.isPublished = isPublished !== undefined ? isPublished : blog.isPublished;
 
     if (req.file) {
-      blog.coverImage = req.file.filename;
+      blog.coverImage = req.file.path;
     }
 
     await blog.save();
@@ -109,7 +95,8 @@ router.put('/:id', auth, upload.single('coverImage'), async (req, res) => {
 // DELETE blog (admin only)
 router.delete('/:id', auth, async (req, res) => {
   try {
-    await Blog.findByIdAndDelete(req.params.id);
+    const blog = await Blog.findByIdAndDelete(req.params.id);
+    if (!blog) return res.status(404).json({ message: 'Blog post not found' });
     res.json({ message: 'Blog post deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });

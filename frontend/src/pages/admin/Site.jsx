@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import AdminLayout from '../../components/AdminLayout'
 import api from '../../utils/api'
-import { BASE_URL } from '../../utils/constants'
 
 function AdminSite() {
   const [form, setForm] = useState({
@@ -40,7 +39,7 @@ function AdminSite() {
           skills: s.skills ? s.skills.join(', ') : '',
           status: s.status || '',
         })
-        if (s.photo) setPhotoPreview(`${BASE_URL}/uploads/${s.photo}`)
+        if (s.photo) setPhotoPreview(s.photo)
         if (s.cvFile) setCurrentCv(s.cvFile)
       } catch (err) {
         console.error('Failed to fetch settings', err)
