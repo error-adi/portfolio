@@ -64,7 +64,8 @@ router.put('/', auth, uploadFields, async (req, res) => {
     settings.status = status || settings.status;
 
     if (req.files['cvFile']) {
-      settings.cvFile = req.files['cvFile'][0].path;
+      const cvUrl = req.files['cvFile'][0].path;
+      settings.cvFile = cvUrl.replace('/upload/', '/upload/fl_attachment/') + '.pdf';
     }
 
     if (req.files['photo']) {
