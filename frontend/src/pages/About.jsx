@@ -95,7 +95,7 @@ function About() {
                   Want to know more? Download my CV.
                 </p>
                 
-                <a  href={settings.cvFile ? settings.cvFile.replace('/image/upload/', '/raw/upload/') : '#'}
+                <a  href={settings.cvFile}
                   download
                   className="block w-full text-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-xl transition-colors"
                 >

@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
     if (file.fieldname === 'photo') {
       return {
         folder: 'portfolio/images',
-        allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+        allowed_formats: ['jpg', 'jpeg', 'png'],
       }
     } else {
       return {
