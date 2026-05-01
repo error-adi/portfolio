@@ -18,8 +18,6 @@ const storage = new CloudinaryStorage({
       return {
         folder: 'portfolio/files',
         allowed_formats: ['pdf'],
-        type: 'upload',
-        access_mode: 'public',
       }
     }
   }
