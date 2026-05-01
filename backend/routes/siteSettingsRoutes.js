@@ -18,7 +18,6 @@ const storage = new CloudinaryStorage({
       return {
         folder: 'portfolio/files',
         allowed_formats: ['pdf'],
-        resource_type: 'raw',
       }
     }
   }
@@ -64,8 +63,7 @@ router.put('/', auth, uploadFields, async (req, res) => {
     settings.status = status || settings.status;
 
     if (req.files['cvFile']) {
-      const cvUrl = req.files['cvFile'][0].path;
-      settings.cvFile = cvUrl.replace('/upload/', '/upload/fl_attachment/') + '.pdf';
+      settings.cvFile = req.files['cvFile'][0].path;
     }
 
     if (req.files['photo']) {
