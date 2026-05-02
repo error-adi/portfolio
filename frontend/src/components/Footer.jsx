@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useSettings } from '../context/SettingsContext'
-import { FaGithub, FaLinkedin } from 'react-icons/fa'
+import { FaEnvelope, FaGithub, FaLinkedin } from 'react-icons/fa'
 
 function Footer() {
   const { settings } = useSettings()
@@ -11,10 +11,7 @@ function Footer() {
 
         <div className="flex flex-col items-center md:items-start gap-1">
           <p className="text-sm text-gray-400">
-            © {new Date().getFullYear()} {settings.name || 'yourname.dev'} — Built with MERN stack
-          </p>
-          <p className="text-xs text-gray-400">
-            Icon by <a href="https://www.flaticon.com/free-icons/api" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Tanah Basah - Flaticon</a>
+            © {new Date().getFullYear()} {settings.name || 'Aditya Agarwal'} — Built with MERN stack
           </p>
         </div>
 
@@ -39,11 +36,12 @@ function Footer() {
               <FaLinkedin size={20} />
             </a>
           )}
+          
           <Link
             to="/contact"
             className="text-sm text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
           >
-            Contact
+            <FaEnvelope size={20} />
           </Link>
         </div>
 
