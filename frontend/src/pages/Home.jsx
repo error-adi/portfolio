@@ -50,7 +50,7 @@ function Home() {
                 </span>
               )}
               <h1 className="text-3xl md:text-4xl font-medium text-gray-900 dark:text-gray-100 leading-tight mb-3">
-                {settings.tagline || 'I build tools that automate the boring stuff.'}
+                {settings.tagline || 'Please wait for Render to spin back up!'}
               </h1>
               {settings.bio && (
                 <div className="relative">
@@ -131,15 +131,15 @@ function Home() {
             {/* Name and skills at bottom */}
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <p className="text-sm font-medium text-white mb-1">
-                {settings.name || 'Your Name'}
+                {settings.name || 'Aditya Agarwal'}
               </p>
               <p className="text-xs text-white/70 mb-3">
-                {settings.title || 'Software Developer'}
+                {settings.title || 'Tech Enthusiast'}
               </p>
               <div className="flex flex-wrap gap-2">
                 {(settings.skills && settings.skills.length > 0
                   ? settings.skills
-                  : ['Python', 'MERN', 'Automation']
+                  : ['Java', 'Python', 'Automation']
                 ).map(tag => (
                   <span
                     key={tag}
