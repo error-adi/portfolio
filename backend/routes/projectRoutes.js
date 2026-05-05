@@ -66,7 +66,8 @@ router.post('/', auth, uploadMixed.fields([
     await project.save();
     res.json({ message: 'Project created successfully', project });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Project create error:', err);
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -101,7 +102,8 @@ router.put('/:id', auth, uploadMixed.fields([
     await project.save();
     res.json({ message: 'Project updated successfully', project });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Project update error:', err);
+    res.status(500).json({ message: err.message });
   }
 });
 
