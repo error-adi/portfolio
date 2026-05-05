@@ -138,7 +138,7 @@ function ProjectDetail() {
               {project.downloadFile ? (
                 <>
                   
-                  <a  href={`${BASE_URL}/uploads/${project.downloadFile}`}
+                  <a  href={project.downloadFile}
                     onClick={handleDownload}
                     download
                     className="block w-full text-center px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-xl transition-colors"
