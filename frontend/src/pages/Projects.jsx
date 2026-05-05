@@ -94,7 +94,7 @@ function Projects() {
                     </Link>
                     {project.downloadFile && (
                       
-                      <a  href={`${BASE_URL}/uploads/${project.downloadFile}`}
+                      <a  href={project.downloadFile}
                         onClick={async () => {
                           await api.patch(`/projects/${project._id}/download`)
                           setProjects(prev =>
