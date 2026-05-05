@@ -27,11 +27,9 @@ const mixedStorage = new CloudinaryStorage({
     } else if (file.fieldname === 'downloadFile') {
       return {
         folder: 'portfolio/files',
-        // allowed_formats: ['pdf'],
+        allowed_formats: ['pdf'],
         resource_type: 'raw',
-        // format: 'pdf',
-        type: 'upload',
-        access_mode: 'public',
+        format: 'pdf',
       }
     }
   }

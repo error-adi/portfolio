@@ -39,15 +39,10 @@ router.get('/:slug', async (req, res) => {
 
 // POST create new project (admin only)
 router.post('/', auth, uploadMixed.fields([
-  { name: 'downloadFile', maxCount: 1 },
   { name: 'screenshots', maxCount: 5 }
 ]), async (req, res) => {
   try {
-    const { title, slug, description, longDescription, techStack } = req.body;
-
-    const downloadFile = req.files['downloadFile']
-      ? req.files['downloadFile'][0].path
-      : null;
+    const { title, slug, description, longDescription, techStack, downloadFile } = req.body;
 
     const screenshots = req.files['screenshots']
       ? req.files['screenshots'].map(f => f.path)
@@ -73,11 +68,10 @@ router.post('/', auth, uploadMixed.fields([
 
 // PUT update project (admin only)
 router.put('/:id', auth, uploadMixed.fields([
-  { name: 'downloadFile', maxCount: 1 },
   { name: 'screenshots', maxCount: 5 }
 ]), async (req, res) => {
   try {
-    const { title, slug, description, longDescription, techStack, isPublished } = req.body;
+    const { title, slug, description, longDescription, techStack, isPublished, downloadFile } = req.body;
 
     const project = await Project.findById(req.params.id);
     if (!project) {
@@ -91,8 +85,8 @@ router.put('/:id', auth, uploadMixed.fields([
     project.techStack = techStack ? techStack.split(',') : project.techStack;
     project.isPublished = isPublished !== undefined ? isPublished : project.isPublished;
 
-    if (req.files['downloadFile']) {
-      project.downloadFile = req.files['downloadFile'][0].path;
+    if (downloadFile) {
+      project.downloadFile = downloadFile;
     }
 
     if (req.files['screenshots']) {
@@ -102,10 +96,8 @@ router.put('/:id', auth, uploadMixed.fields([
     await project.save();
     res.json({ message: 'Project updated successfully', project });
   } catch (err) {
-    console.error('Project update error full:', JSON.stringify(err, null, 2));
-    console.error('Error message:', err.message);
-    console.error('Error stack:', err.stack);
-    res.status(500).json({ message: err.message, details: err.stack });
+    console.error('Project update error:', err);
+    res.status(500).json({ message: err.message });
   }
 });
 
