@@ -102,8 +102,10 @@ router.put('/:id', auth, uploadMixed.fields([
     await project.save();
     res.json({ message: 'Project updated successfully', project });
   } catch (err) {
-    console.error('Project update error:', err);
-    res.status(500).json({ message: err.message });
+    console.error('Project update error full:', JSON.stringify(err, null, 2));
+    console.error('Error message:', err.message);
+    console.error('Error stack:', err.stack);
+    res.status(500).json({ message: err.message, details: err.stack });
   }
 });
 

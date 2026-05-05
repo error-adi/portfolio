@@ -10,6 +10,12 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use((err, req, res, next) => {
+  console.error('Global error:', JSON.stringify(err, null, 2));
+  res.status(500).json({ message: err.message });
+});
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 mongoose.connect(process.env.MONGO_URI)
