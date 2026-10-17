@@ -176,6 +176,16 @@ function ProjectDetail() {
                     })}
                   </p>
                 </div>
+                <div>
+                  <p className="text-xs text-gray-400 mb-1">Last Updated</p>
+                  <p className="text-sm text-gray-900 dark:text-gray-100">
+                    {new Date(project.updatedAt).toLocaleDateString('en-IN', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric'
+                    })}
+                  </p>
+                </div>
               </div>
             </div>
 
