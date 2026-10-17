@@ -83,34 +83,9 @@ function Home() {
             </div>
           </div>
 
-          {/* Avatar card */}
-          {/* <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-8 flex flex-col items-center justify-center gap-4">
-            <div className="w-20 h-20 rounded-full bg-indigo-100 dark:bg-indigo-950 flex items-center justify-center text-2xl font-medium text-indigo-600 dark:text-indigo-400 overflow-hidden">
-              {settings.photo ? (
-                <img
-                  src={`${BASE_URL}/uploads/${settings.photo}`}
-                  alt={settings.name}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                settings.name ? settings.name.charAt(0) : 'Y'
-              )}
-            </div>
-            <div className="text-center">
-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{settings.name || 'Your Name'}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Software Developer</p>
-            </div>
-            <div className="flex flex-wrap gap-2 justify-center">
-              {['Python', 'MERN', 'Automation'].map(tag => (
-                <span key={tag} className="text-xs px-3 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 rounded-full">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div> */}
 
           {/* Avatar card */}
-          <div className="relative bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl overflow-hidden min-h-64">
+          <div className="relative bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl overflow-hidden min-h-64 md:min-h-80 aspect-[3/4] md:aspect-auto">
 
             {/* Full cover photo */}
             {settings.photo ? (
