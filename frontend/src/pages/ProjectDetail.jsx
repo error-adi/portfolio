@@ -8,6 +8,7 @@ function ProjectDetail() {
   const { slug } = useParams()
   const [project, setProject] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [lightboxImage, setLightboxImage] = useState(null)
   const [downloaded, setDownloaded] = useState(false)
 
   useEffect(() => {
@@ -75,6 +76,17 @@ function ProjectDetail() {
           {/* Main content */}
           <div className="md:col-span-2 space-y-8">
 
+            {/* Thumbnail banner */}
+            {project.thumbnail && (
+              <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 mb-6">
+                <img
+                  src={project.thumbnail}
+                  alt={project.title}
+                  className="w-full object-cover max-h-72"
+                />
+              </div>
+            )}
+
             {/* Title */}
             <div>
               <div className="flex flex-wrap gap-2 mb-3">
@@ -95,32 +107,51 @@ function ProjectDetail() {
               </p>
             </div>
 
-            {/* Thumbnail — shown only if no screenshots */}
-            {project.thumbnail && (!project.screenshots || project.screenshots.length === 0) && (
-              <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800">
-                <img
-                  src={project.thumbnail}
-                  alt={project.title}
-                  className="w-full object-cover"
-                />
-              </div>
-            )}
-
-            {/* Screenshots */}
+            {/* Screenshots — horizontal scroll */}
             {project.screenshots && project.screenshots.length > 0 && (
-              <div className="space-y-3">
-                {project.screenshots.map((screenshot, index) => (
+              <div>
+                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-3">
+                  Screenshots
+                </h2>
+
+                {/* Horizontal scroll strip */}
+                <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                  {project.screenshots.map((screenshot, index) => (
+                    <div
+                      key={index}
+                      onClick={() => setLightboxImage(screenshot)}
+                      className="shrink-0 w-48 h-32 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 cursor-pointer hover:opacity-90 transition-opacity"
+                    >
+                      <img
+                        src={screenshot}
+                        alt={`${project.title} screenshot ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Lightbox */}
+                {lightboxImage && (
                   <div
-                    key={index}
-                    className="rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800"
+                    onClick={() => setLightboxImage(null)}
+                    className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 cursor-pointer"
                   >
-                    <img
-                      src={screenshot}
-                      alt={`${project.title} screenshot ${index + 1}`}
-                      className="w-full object-cover"
-                    />
+                    <div className="relative max-w-4xl w-full">
+                      <img
+                        src={lightboxImage}
+                        alt="Screenshot"
+                        className="w-full rounded-2xl object-contain max-h-screen"
+                      />
+                      <button
+                        onClick={() => setLightboxImage(null)}
+                        className="absolute top-3 right-3 text-white bg-black/50 rounded-full w-8 h-8 flex items-center justify-center text-sm hover:bg-black/70 transition-colors"
+                      >
+                        ✕
+                      </button>
+                    </div>
                   </div>
-                ))}
+                )}
               </div>
             )}
 
