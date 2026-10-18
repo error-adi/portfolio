@@ -48,11 +48,11 @@ function Projects() {
                 key={project._id}
                 className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-6 flex flex-col justify-between group hover:border-indigo-200 dark:hover:border-indigo-800 transition-colors"
               >
-                {/* Screenshot */}
-                {project.screenshots && project.screenshots.length > 0 && (
+                {/* Thumbnail */}
+                {(project.thumbnail || (project.screenshots && project.screenshots.length > 0)) && (
                   <div className="mb-4 rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800 aspect-video">
                     <img
-                      src={project.screenshots[0]}
+                      src={project.thumbnail || project.screenshots[0]}
                       alt={project.title}
                       className="w-full h-full object-cover"
                     />

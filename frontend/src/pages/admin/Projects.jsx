@@ -20,6 +20,7 @@ function AdminProjects() {
 
   const [form, setForm] = useState(emptyForm)
   // const [downloadFile, setDownloadFile] = useState(null)
+  const [thumbnail, setThumbnail] = useState(null)
   const [screenshots, setScreenshots] = useState([])
   const [saving, setSaving] = useState(false)
 
@@ -76,6 +77,7 @@ function AdminProjects() {
       formData.append('isPublished', form.isPublished)
 
       formData.append('downloadFile', form.downloadFile)
+      if (thumbnail) formData.append('thumbnail', thumbnail)
       if (screenshots.length > 0) {
         screenshots.forEach(f => formData.append('screenshots', f))
       }
@@ -87,7 +89,7 @@ function AdminProjects() {
       }
 
       setForm(emptyForm)
-      // setDownloadFile(null)
+      setThumbnail(null)
       setScreenshots([])
       setEditingProject(null)
       setShowForm(false)
@@ -101,7 +103,7 @@ function AdminProjects() {
 
   const handleCancel = () => {
     setForm(emptyForm)
-    setDownloadFile(null)
+    setThumbnail(null)
     setScreenshots([])
     setEditingProject(null)
     setShowForm(false)
@@ -214,17 +216,7 @@ function AdminProjects() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Download File
-                </label>
-                <input
-                  type="file"
-                  onChange={(e) => setDownloadFile(e.target.files[0])}
-                  className="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100"
-                />
-              </div> */}
-
+              
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                   Download Link
@@ -237,6 +229,19 @@ function AdminProjects() {
                   placeholder="https://drive.google.com/..."
                 />
                 <p className="text-xs text-gray-400 mt-1">Paste a Google Drive or any direct download link</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                  Thumbnail
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setThumbnail(e.target.files[0])}
+                  className="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100"
+                />
+                <p className="text-xs text-gray-400 mt-1">Shown as project card cover image</p>
               </div>
 
               <div>

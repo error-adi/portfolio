@@ -16,10 +16,29 @@ const imageStorage = new CloudinaryStorage({
   },
 })
 
+// const mixedStorage = new CloudinaryStorage({
+//   cloudinary,
+//   params: (req, file) => {
+//     if (file.fieldname === 'screenshots') {
+//       return {
+//         folder: 'portfolio/images',
+//         allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+//       }
+//     } else if (file.fieldname === 'downloadFile') {
+//       return {
+//         folder: 'portfolio/files',
+//         allowed_formats: ['pdf'],
+//         resource_type: 'raw',
+//         format: 'pdf',
+//       }
+//     }
+//   }
+// })
+
 const mixedStorage = new CloudinaryStorage({
   cloudinary,
   params: (req, file) => {
-    if (file.fieldname === 'screenshots') {
+    if (file.fieldname === 'screenshots' || file.fieldname === 'thumbnail') {
       return {
         folder: 'portfolio/images',
         allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],

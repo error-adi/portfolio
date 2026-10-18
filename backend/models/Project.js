@@ -20,6 +20,9 @@ const projectSchema = new mongoose.Schema({
   techStack: {
     type: [String]
   },
+  thumbnail: {
+    type: String
+  },
   screenshots: {
     type: [String]
   },

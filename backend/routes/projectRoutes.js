@@ -39,10 +39,15 @@ router.get('/:slug', async (req, res) => {
 
 // POST create new project (admin only)
 router.post('/', auth, uploadMixed.fields([
+  { name: 'thumbnail', maxCount: 1 },
   { name: 'screenshots', maxCount: 5 }
 ]), async (req, res) => {
   try {
     const { title, slug, description, longDescription, techStack, downloadFile } = req.body;
+
+    const thumbnail = req.files['thumbnail']
+      ? req.files['thumbnail'][0].path
+      : null;
 
     const screenshots = req.files['screenshots']
       ? req.files['screenshots'].map(f => f.path)
@@ -55,6 +60,7 @@ router.post('/', auth, uploadMixed.fields([
       longDescription,
       techStack: techStack ? techStack.split(',') : [],
       downloadFile,
+      thumbnail,
       screenshots
     });
 
@@ -68,6 +74,7 @@ router.post('/', auth, uploadMixed.fields([
 
 // PUT update project (admin only)
 router.put('/:id', auth, uploadMixed.fields([
+  { name: 'thumbnail', maxCount: 1 },
   { name: 'screenshots', maxCount: 5 }
 ]), async (req, res) => {
   try {
@@ -87,6 +94,10 @@ router.put('/:id', auth, uploadMixed.fields([
 
     if (downloadFile) {
       project.downloadFile = downloadFile;
+    }
+
+    if (req.files['thumbnail']) {
+      project.thumbnail = req.files['thumbnail'][0].path;
     }
 
     if (req.files['screenshots']) {

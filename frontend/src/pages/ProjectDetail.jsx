@@ -95,6 +95,17 @@ function ProjectDetail() {
               </p>
             </div>
 
+            {/* Thumbnail — shown only if no screenshots */}
+            {project.thumbnail && (!project.screenshots || project.screenshots.length === 0) && (
+              <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800">
+                <img
+                  src={project.thumbnail}
+                  alt={project.title}
+                  className="w-full object-cover"
+                />
+              </div>
+            )}
+
             {/* Screenshots */}
             {project.screenshots && project.screenshots.length > 0 && (
               <div className="space-y-3">
